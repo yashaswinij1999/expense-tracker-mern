@@ -3,6 +3,13 @@ const app = express();
 
 const mongoose = require("mongoose");
 
+const cors = require("cors");
+app.use(cors());
+app.use(express.json());
+
+const router = require("./router/transactions");
+app.use("/transactions", router);
+
 const connectDb = async () => {
   try {
     await mongoose.connect(
