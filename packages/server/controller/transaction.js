@@ -21,7 +21,8 @@ const getTransactions = async (req, res) => {
 const deleteTransactions = async (req, res) => {
   try {
     const { id } = req.params;
-    const response = await Transaction.findByIdAndDelete({ _id: id });
+
+    const response = await Transaction.findByIdAndDelete({ id });
     res.send(response);
   } catch (error) {
     res.send(error);

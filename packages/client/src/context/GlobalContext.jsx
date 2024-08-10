@@ -1,5 +1,6 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import { reducer } from "./Reducer";
+import axios from "axios";
 
 export const transactionContext = createContext();
 
@@ -12,6 +13,20 @@ const intialState = [
 
 function GlobalContext({ children }) {
   const [state, dispatch] = useReducer(reducer, intialState);
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
+
+  const getTransactions = async function () {
+    try {
+      const response = await axios.get("http://localhost:5000/transactions/");
+      dispatch({ type: "get", payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <transactionContext.Provider value={{ state, dispatch }}>
